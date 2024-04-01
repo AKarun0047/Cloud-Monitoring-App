@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPU and Memory Utilization</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        #utilization {
+            font-size: 24px;
+            text-align: center;
+            margin-top: 20px;
+            color: #333;
+        }
+
+        #message {
+            font-size: 18px;
+            text-align: center;
+            margin-top: 20px;
+            color: red;
+            font-weight: bold;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            max-width: 200px;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CPU and Memory Utilization</h1>
+        <div id="utilization">
+            CPU Utilization: {{ cpu_metric }}%
+            <br>
+            Memory Utilization: {{ mem_metric.percent }}%
+        </div>
+        {% if message %}
+        <div id="message">{{ message }}</div>
+        {% endif %}
+        <button class="btn" onclick="fetchData()">Refresh</button>
+    </div>
+
+    <!-- JavaScript to refresh data every 5 seconds -->
+    <script>
+        function fetchData() {
+            fetch('/')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('utilization').innerHTML = data;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        setInterval(fetchData, 5000); // Refresh every 5 seconds
+    </script>
+</body>
+</html>
